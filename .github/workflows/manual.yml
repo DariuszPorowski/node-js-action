@@ -1,0 +1,38 @@
+---
+name: Test Local
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+
+    - name: Debug
+      uses: raven-actions/debug@v1
+
+    - uses: actions/checkout@v3
+
+    - name: Node 18 Action
+      id: node18-action
+      uses: ./
+      with:
+        kebab-case: 123
+        snake_case: true
+
+    - run: |
+        echo "${{ env.KEBAB-CASE }}"
+        echo "${{ env.SNAKE_CASE }}"
+
+    - run: |
+        echo "${{ steps.node18-action.outputs.kebab-case }}"
+        echo "${{ steps.node18-action.outputs.snake_case }}"
+
+    - name: Node 20 Action
+      id: node20-action
+      uses: ./
+      with:
+        node-version: 20
+        kebab-case: false
+        snake_case: '001'

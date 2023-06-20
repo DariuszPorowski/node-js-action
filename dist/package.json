@@ -1,0 +1,12 @@
+{
+  "name": "node-js-action",
+  "version": "1.0.0",
+  "description": "Run JS action in Node > 16",
+  "license": "MIT",
+  "author": "Dariusz Porowski",
+  "type": "module",
+  "main": "index.mjs",
+  "dependencies": {
+    "@actions/core": "^1.10.0"
+  }
+}

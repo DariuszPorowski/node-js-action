@@ -1,0 +1,50 @@
+name: Node JS Action
+description: Run JS action in Node > 16
+author: Dariusz Porowski
+inputs:
+
+  kebab-case:
+    description: Kebab Case input
+    required: false
+    default: Foo
+
+  snake_case:
+    description: Snake Case input
+    required: false
+    default: Bar
+
+  node-version:
+    description: Node version
+    required: false
+    default: '18'
+
+outputs:
+
+  kebab-case:
+    description: Kebab Case output
+    value: ${{ steps.action.outputs.kebab-case }}
+
+  snake_case:
+    description: Snake Case output
+    value: ${{ steps.action.outputs.snake_case }}
+
+# runs:
+#   using: node16
+#   main: dist/index.mjs
+
+runs:
+  using: composite
+  steps:
+
+    - name: Setup Node
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ inputs.node-version || '18' }}
+
+    - name: Action
+      id: action
+      run: node ${{ github.action_path }}/dist/index.mjs
+      shell: ${{ (runner.os == 'Windows' && 'pwsh') || 'bash' }}
+      env:
+        INPUT_KEBAB-CASE: ${{ inputs.kebab-case }}
+        INPUT_SNAKE_CASE: ${{ inputs.snake_case }}
